@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Toaster } from '@/components/ui/sonner';
 import { insertarConfirmacion, isSupabaseConfigured } from '@/lib/supabase';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, Heart, MapPin, Phone, Sparkles, User, UserCheck } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Heart, IdCard, MapPin, Phone, Sparkles, User, UserCheck } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -17,6 +17,7 @@ interface FormData {
   apellido: string;
   telefono: string;
   asistencia: 'si' | 'no' | '';
+  cedula: string;
 }
 
 export default function QuinceaneraInvitation() {
@@ -25,7 +26,8 @@ export default function QuinceaneraInvitation() {
     nombre: '',
     apellido: '',
     telefono: '',
-    asistencia: ''
+    asistencia: '',
+    cedula: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -42,7 +44,7 @@ export default function QuinceaneraInvitation() {
 
     // Verificar si Supabase está configurado
     if (!isSupabaseConfigured()) {
-      toast.error('Base de datos no configurada. Por favor conecta Supabase usando el botón en la parte superior.');
+      toast.error('No se pudo conectar a la base de datos.');
       return;
     }
 
@@ -51,19 +53,36 @@ export default function QuinceaneraInvitation() {
       return;
     }
 
-    if (formData.asistencia === 'si' && !formData.telefono) {
-      toast.error('Por favor proporciona un teléfono de contacto');
+    if (formData.asistencia === 'si' && (!formData.telefono || !formData.cedula)) {
+      toast.error('Por favor debes proporcionar un teléfono de contacto y cédula si confirmas tu asistencia.');
+      return;
+    }
+
+    //validate if a real phone number is provided
+    const phoneRegex = /^\+?\d{1,3}[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+    if (formData.telefono && !phoneRegex.test(formData.telefono)) {
+      toast.error('Por favor ingresa un número de teléfono válido.');
+      return;
+    }
+
+    const cedulaRegex = /^[0-9]{1,8}$/;
+    if (formData.cedula && !cedulaRegex.test(formData.cedula)) {
+      toast.error('Por favor ingresa una cédula válida (8 dígitos).');
       return;
     }
 
     setIsSubmitting(true);
 
+    const cleanTelefono = formData.telefono.replace(/\D/g, '');
+    const cleanCedula = formData.cedula.replace(/\D/g, '');
+
     try {
       await insertarConfirmacion({
         nombre: formData.nombre,
         apellido: formData.apellido,
-        telefono: formData.telefono || undefined,
-        asistencia: formData.asistencia as 'si' | 'no'
+        telefono: cleanTelefono,
+        asistencia: formData.asistencia as 'si' | 'no',
+        cedula: cleanCedula
       });
 
       setIsSubmitted(true);
@@ -75,7 +94,6 @@ export default function QuinceaneraInvitation() {
       } else {
         toast.error('Error al enviar la confirmación. Inténtalo nuevamente.');
       }
-      console.error('Error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -84,7 +102,7 @@ export default function QuinceaneraInvitation() {
   const resetForm = () => {
     setShowForm(false);
     setIsSubmitted(false);
-    setFormData({ nombre: '', apellido: '', telefono: '', asistencia: '' });
+    setFormData({ nombre: '', apellido: '', telefono: '', asistencia: '', cedula: '' });
   };
 
   return (
@@ -248,7 +266,8 @@ export default function QuinceaneraInvitation() {
                 >
                   <Button
                     onClick={() => setShowForm(true)}
-                    className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-4 px-12 rounded-full shadow-2xl text-lg transform transition-all duration-300 hover:scale-105 hover:shadow-3xl"
+                    disabled={formData.asistencia === 'si' && (!formData.telefono.trim() || !formData.cedula.trim())}
+                    className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-4 px-12 rounded-full shadow-2xl text-lg transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:bg-muted-foreground"
                   >
                     <UserCheck className="w-5 h-5 mr-2" />
                     Confirmar Asistencia
@@ -400,28 +419,53 @@ export default function QuinceaneraInvitation() {
 
                   <AnimatePresence>
                     {formData.asistencia === 'si' && (
-                      <motion.div
-                        className="space-y-2"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Label htmlFor="telefono" className="text-sm font-semibold text-gray-700">
-                          Teléfono de contacto (padre/madre) *
-                        </Label>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                          <Input
-                            id="telefono"
-                            type="tel"
-                            placeholder="Ej: +52 55 1234 5678"
-                            value={formData.telefono}
-                            onChange={(e) => handleInputChange('telefono', e.target.value)}
-                            className="pl-10 border-gray-300 focus:border-pink-400 focus:ring-pink-400"
-                          />
-                        </div>
-                      </motion.div>
+                      <>
+                        <motion.div
+                          className="space-y-2"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Label htmlFor="telefono" className="text-sm font-semibold text-gray-700">
+                            Teléfono de contacto (padre/madre) *
+                          </Label>
+                          <div className="relative">
+                            <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                            <Input
+                              id="telefono"
+                              type="tel"
+                              placeholder="Ej: +598 99 999 999"
+                              value={formData.telefono}
+                              onChange={(e) => handleInputChange('telefono', e.target.value)}
+                              className="pl-10 border-gray-300 focus:border-pink-400 focus:ring-pink-400"
+                            />
+                          </div>
+                        </motion.div>
+                        <motion.div
+                          className="space-y-2"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Label htmlFor="telefono" className="text-sm font-semibold text-gray-700">
+                            Cédula de identdad *
+                          </Label>
+                          <div className="relative">
+                            <IdCard className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                            <Input
+                              id="cedula"
+                              type="text"
+                              maxLength={8}
+                              placeholder="Ej: 12345678"
+                              value={formData.cedula}
+                              onChange={(e) => handleInputChange('cedula', e.target.value)}
+                              className="pl-10 border-gray-300 focus:border-pink-400 focus:ring-pink-400"
+                            />
+                          </div>
+                        </motion.div>
+                      </>
                     )}
                   </AnimatePresence>
 
@@ -503,7 +547,7 @@ export default function QuinceaneraInvitation() {
                     variant="outline"
                     className="border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-3 rounded-full"
                   >
-                    Enviar otra confirmación
+                    Volver al menú
                   </Button>
                 </motion.div>
               </CardContent>
