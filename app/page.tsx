@@ -106,12 +106,12 @@ export default function QuinceaneraInvitation() {
   };
 
   return (
-    <div className="h-screen  relative bg-cover bg-center bg-no-repeat">
+    <div className="h-screen  relative bg-[#F7D0E2]">
       <Toaster position="top-center" />
 
       {/* Floating decorative elements */}
       <motion.div
-        className="absolute top-10 left-10 w-20 h-20 bg-pink-200/30 rounded-full blur-xl"
+        className="absolute top-10 left-10 w-20 h-20 bg-[#4D1730] rounded-full blur-xl"
         animate={{
           y: [0, -20, 0],
           x: [0, 10, 0],
@@ -123,7 +123,7 @@ export default function QuinceaneraInvitation() {
         }}
       />
       <motion.div
-        className="absolute top-1/3 right-20 w-16 h-16 bg-purple-200/30 rounded-full blur-xl"
+        className="absolute top-1/3 right-20 w-16 h-16 bg-[#A26682] rounded-full blur-xl"
         animate={{
           y: [0, 15, 0],
           x: [0, -15, 0],
@@ -135,7 +135,7 @@ export default function QuinceaneraInvitation() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 left-1/4 w-24 h-24 bg-rose-200/30 rounded-full blur-xl"
+        className="absolute bottom-20 left-1/4 w-24 h-24 bg-[#4D1730] rounded-full blur-xl"
         animate={{
           y: [0, -25, 0],
           x: [0, 20, 0],
@@ -171,11 +171,11 @@ export default function QuinceaneraInvitation() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="mb-8"
                 >
-                  <Sparkles className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 text-pink-400" />
+                  <Sparkles className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-6 text-[#4D1730]" />
                 </motion.div>
 
                 <motion.h1
-                  className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 bg-clip-text text-transparent"
+                  className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-[#A26682] to-[#4D1730] bg-clip-text text-transparent"
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.7 }}
@@ -211,24 +211,24 @@ export default function QuinceaneraInvitation() {
                   {[
                     {
                       icon: <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />,
-                      title: "Setiembre",
+                      title: "6 de Septiembre",
                       subtitle: "2025",
-                      gradient: "from-pink-400 to-purple-400",
-                    },
-                    {
-                      icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-white" />,
-                      title: "7:00 PM",
-                      subtitle: "Ceremonia",
-                      title2: "9:00 PM",
-                      subtitle2: "Celebración",
-                      gradient: "from-purple-400 to-rose-400",
+                      gradient: "from-[#F7D0E2] to-[#4D1730]",
                     },
                     {
                       icon: <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-white" />,
-                      title: "Salón ***",
-                      subtitle: "Av. Principal #123",
-                      subtitle2: "Montevideo, Ciudad Vieja",
-                      gradient: "from-rose-400 to-pink-400",
+                      title: "Salón Champagne",
+                      subtitle: "Yatay 1436",
+                      subtitle2: "11800 Montevideo",
+                      gradient: "from-[#F7D0E2] to-[#4D1730]",
+                    },
+                    {
+                      icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-white" />,
+                      title: "09:00 PM",
+                      subtitle: "Hora de comienzo",
+                      title2: "9:00 PM",
+                      subtitle2: "Horario",
+                      gradient: "from-[#F7D0E2] to-[#4D1730]",
                     },
                   ].map((card, index) => (
                     <motion.div
@@ -236,19 +236,13 @@ export default function QuinceaneraInvitation() {
                       whileHover={{ scale: 1.03, y: -4 }}
                       transition={{ type: "spring", stiffness: 250 }}
                     >
-                      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-xl">
+                      <Card className="border-neutral-200 shadow-xl bg-white/80 backdrop-blur-sm rounded-xl">
                         <CardContent className="p-6 md:p-8 text-center">
                           <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${card.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
                             {card.icon}
                           </div>
                           <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-1">{card.title}</h3>
                           <p className="text-sm sm:text-base text-gray-600">{card.subtitle}</p>
-                          {card.title2 && (
-                            <>
-                              <h3 className="text-lg sm:text-xl font-bold text-gray-800 mt-2">{card.title2}</h3>
-                              <p className="text-sm sm:text-base text-gray-600">{card.subtitle2}</p>
-                            </>
-                          )}
                           {card.subtitle2 && !card.title2 && (
                             <p className="text-sm sm:text-base text-gray-600">{card.subtitle2}</p>
                           )}
@@ -257,7 +251,22 @@ export default function QuinceaneraInvitation() {
                     </motion.div>
                   ))}
                 </motion.div>
-
+                <motion.div
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 1.5 }}
+                  className='my-4'
+                >
+                  <p>
+                    Colectivo - Prex 1640160
+                  </p>
+                  <p className='font-bold'>
+                    Vestimenta formal
+                  </p>
+                  <p>
+                    Código de color prohibido, rosa
+                  </p>
+                </motion.div>
 
                 <motion.div
                   initial={{ y: 50, opacity: 0 }}
@@ -267,26 +276,12 @@ export default function QuinceaneraInvitation() {
                   <Button
                     onClick={() => setShowForm(true)}
                     disabled={formData.asistencia === 'si' && (!formData.telefono.trim() || !formData.cedula.trim())}
-                    className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-4 px-12 rounded-full shadow-2xl text-lg transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:bg-muted-foreground"
+                    className="bg-gradient-to-r from-[#A26682] to-[#4D1730] hover:from-[#A26682] hover:to-[#4D1730] text-white font-semibold py-4 px-12 rounded-full shadow-2xl text-lg transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:bg-muted-foreground"
                   >
                     <UserCheck className="w-5 h-5 mr-2" />
                     Confirmar Asistencia
                   </Button>
                 </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Footer */}
-            <motion.div
-              className="text-center py-8"
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.7 }}
-            >
-              <div className="flex justify-center items-center space-x-2 text-pink-500">
-                <Heart className="w-5 h-5 fill-current" />
-                <span className="font-semibold text-gray-700">Con amor, Juli</span>
-                <Heart className="w-5 h-5 fill-current" />
               </div>
             </motion.div>
           </motion.div>
@@ -307,7 +302,7 @@ export default function QuinceaneraInvitation() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <CardHeader className="text-center bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-t-lg relative">
+                <CardHeader className="text-center bg-gradient-to-r from-[#A26682] to-[#4D1730] text-white rounded-t-lg relative">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -428,7 +423,7 @@ export default function QuinceaneraInvitation() {
                           transition={{ duration: 0.3 }}
                         >
                           <Label htmlFor="telefono" className="text-sm font-semibold text-gray-700">
-                            Teléfono de contacto (padre/madre) *
+                            Teléfono de contacto (adulto responsable) *
                           </Label>
                           <div className="relative">
                             <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
@@ -477,7 +472,7 @@ export default function QuinceaneraInvitation() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                      className="w-full bg-gradient-to-r from-[#A26682] to-[#4D1730] hover:from-[#A26682] hover:to-[#4D1730] text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                     >
                       {isSubmitting ? (
                         <motion.div
@@ -513,7 +508,7 @@ export default function QuinceaneraInvitation() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  className="w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full flex items-center justify-center mx-auto mb-8"
+                  className="w-20 h-20 bg-gradient-to-r from-[#A26682] to-[#4D1730] rounded-full flex items-center justify-center mx-auto mb-8"
                 >
                   <Heart className="w-10 h-10 text-white" />
                 </motion.div>
@@ -533,7 +528,7 @@ export default function QuinceaneraInvitation() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.6 }}
                 >
-                  Tu respuesta ha sido registrada exitosamente.
+                  Tu respuesta ha sido registrada.
                   {formData.asistencia === 'si' ? ' ¡Nos vemos en la celebración!' : ' Lamentamos que no puedas acompañarnos.'}
                 </motion.p>
 
@@ -545,7 +540,7 @@ export default function QuinceaneraInvitation() {
                   <Button
                     onClick={resetForm}
                     variant="outline"
-                    className="border-pink-300 text-pink-600 hover:bg-pink-50 px-8 py-3 rounded-full"
+                    className="border-[#A26682] text-[#4D1730] hover:bg-[#A26682]/10 px-8 py-3 rounded-full"
                   >
                     Volver al menú
                   </Button>
