@@ -106,7 +106,7 @@ export default function QuinceaneraInvitation() {
   };
 
   return (
-    <div className="h-screen  relative bg-[#F7D0E2]">
+    <div className="h-screen relative">
       <Toaster position="top-center" />
 
       {/* Floating decorative elements */}
