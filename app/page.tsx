@@ -396,7 +396,7 @@ export default function QuinceaneraInvitation() {
                       >
                         <RadioGroupItem value="si" id="si" className="text-pink-500" />
                         <Label htmlFor="si" className="cursor-pointer font-medium text-lg">
-                          ¡Sí, estaré ahí! 🎉
+                          ¡Sí, estaré ahí!
                         </Label>
                       </motion.div>
                       <motion.div
@@ -406,7 +406,7 @@ export default function QuinceaneraInvitation() {
                       >
                         <RadioGroupItem value="no" id="no" />
                         <Label htmlFor="no" className="cursor-pointer font-medium text-lg">
-                          No podré asistir 😔
+                          No podré asistir
                         </Label>
                       </motion.div>
                     </RadioGroup>
